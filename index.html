@@ -3,79 +3,77 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard Cosecha Propia — Febrero 2026</title>
+<title>Dashboard Cosecha Propia — Komatsu 2026</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg:#f4f6f9; --surface:#ffffff; --surface2:#f0f2f5; --border:#dde1e7;
-    --accent:#1a3a5c; --accent2:#2563a8; --accent-light:#e8f0f9;
-    --green:#1a6640; --green-light:#e6f2ec;
-    --navy:#0f2744; --slate:#4a5568; --muted:#8a94a6;
-    --text:#1a202c; --text2:#2d3748;
-    --k23:#2563a8; --k23-light:#dbeafe;
-    --k24:#1a6640; --k24-light:#d1fae5;
+    --bg:#f4f6f9;--surface:#fff;--surface2:#f0f2f5;--border:#dde1e7;
+    --navy:#0f2744;--accent:#2563a8;--accent-light:#e8f0f9;
+    --green:#1a6640;--green-light:#d1fae5;
+    --slate:#4a5568;--muted:#8a94a6;--text:#1a202c;--text2:#2d3748;
+    --k23:#2563a8;--k23-light:#dbeafe;--k24:#1a6640;--k44-light:#d1fae5;
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
 
   /* HEADER */
   header{background:var(--navy);padding:20px 24px 18px;position:relative;overflow:hidden;}
-  header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--k23) 0%,var(--k23) 50%,var(--k24) 50%,var(--k24) 100%);}
+  header::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--k23) 50%,var(--green) 50%);}
   .header-top{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
   .header-badge{background:rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);font-size:9px;font-weight:600;letter-spacing:2px;padding:3px 8px;text-transform:uppercase;margin-bottom:8px;display:inline-block;border-radius:2px;border:1px solid rgba(255,255,255,0.15);}
-  h1{font-size:20px;font-weight:700;color:#fff;line-height:1.2;letter-spacing:-0.3px;}
+  h1{font-size:20px;font-weight:700;color:#fff;line-height:1.2;}
   h1 span{color:rgba(255,255,255,0.5);font-weight:400;display:block;font-size:14px;margin-top:2px;}
-  .subtitle{font-size:11px;color:rgba(255,255,255,0.4);margin-top:5px;letter-spacing:0.3px;}
-  .machines{display:flex;gap:8px;align-items:center;flex-shrink:0;}
+  .subtitle{font-size:11px;color:rgba(255,255,255,0.4);margin-top:5px;}
+  .machines{display:flex;gap:8px;flex-shrink:0;}
   .machine-tag{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:5px;padding:7px 14px;text-align:center;}
   .machine-tag .label{font-size:8px;color:rgba(255,255,255,0.4);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:3px;}
-  .machine-tag .value{font-size:18px;font-weight:700;color:#fff;}
+  .machine-tag .value{font-size:18px;font-weight:700;}
   .machine-tag.m23 .value{color:#93c5fd;}
   .machine-tag.m24 .value{color:#6ee7b7;}
 
-  /* NAV */
-  .week-nav{background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;}
-  .nav-tabs{display:flex;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:0 16px;}
-  .nav-tabs::-webkit-scrollbar{display:none;}
-  .week-btn{padding:12px 16px;background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
-  .week-btn:hover{color:var(--text2);}
-  .week-btn.active{color:var(--accent2);border-bottom:2px solid var(--accent2);font-weight:600;}
-
-  /* MACHINE FILTER */
-  .maq-filter-bar{display:flex;align-items:center;gap:8px;padding:10px 16px;background:var(--surface2);border-bottom:1px solid var(--border);}
-  .filter-label{font-size:11px;color:var(--muted);letter-spacing:0.5px;white-space:nowrap;}
-  .maq-btns{display:flex;gap:6px;}
-  .maq-btn{padding:5px 14px;border-radius:4px;border:1px solid var(--border);background:none;color:var(--slate);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;}
-  .maq-btn:hover{border-color:var(--accent2);color:var(--accent2);}
-  .maq-btn.active-all{background:var(--accent);color:#fff;border-color:var(--accent);}
+  /* TOP NAV - mes + máquina */
+  .top-nav{background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 1px 3px rgba(0,0,0,0.05);position:sticky;top:0;z-index:100;}
+  .nav-row1{display:flex;align-items:center;padding:0 16px;border-bottom:1px solid var(--border);}
+  .nav-label{font-size:10px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;padding:10px 8px 10px 0;white-space:nowrap;font-weight:500;}
+  .mes-btn{padding:10px 16px;background:none;border:none;color:var(--muted);font-family:'Inter',sans-serif;font-size:13px;font-weight:500;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap;}
+  .mes-btn:hover{color:var(--text2);}
+  .mes-btn.active{color:var(--accent);border-bottom:2px solid var(--accent);font-weight:600;}
+  .nav-row2{display:flex;align-items:center;gap:8px;padding:8px 16px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  .nav-row2::-webkit-scrollbar{display:none;}
+  .week-btn{padding:5px 14px;border-radius:4px;border:1px solid var(--border);background:none;color:var(--slate);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+  .week-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .week-btn.active{background:var(--accent);color:#fff;border-color:var(--accent);}
+  .nav-sep{width:1px;height:20px;background:var(--border);flex-shrink:0;}
+  .maq-btn{padding:5px 14px;border-radius:4px;border:1px solid var(--border);background:none;color:var(--slate);font-family:'Inter',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all 0.2s;white-space:nowrap;flex-shrink:0;}
+  .maq-btn:hover{border-color:var(--accent);color:var(--accent);}
+  .maq-btn.active-all{background:var(--navy);color:#fff;border-color:var(--navy);}
   .maq-btn.active-k23{background:var(--k23);color:#fff;border-color:var(--k23);}
   .maq-btn.active-k24{background:var(--green);color:#fff;border-color:var(--green);}
 
   /* FILTER INDICATOR */
-  .filter-indicator{display:none;align-items:center;gap:8px;margin-bottom:14px;padding:9px 14px;border-radius:6px;font-size:12px;color:var(--slate);}
+  .filter-indicator{display:none;align-items:center;gap:8px;margin-bottom:14px;padding:9px 14px;border-radius:6px;font-size:12px;}
   .filter-indicator.show{display:flex;}
   .filter-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;}
 
-  /* MAIN */
   main{padding:16px;}
 
   /* KPI */
   .kpi-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:16px;}
   .kpi{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:14px 16px;position:relative;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
-  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kpi-color,var(--accent2));}
+  .kpi::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--kpi-color,var(--accent));}
   .kpi-label{font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;font-weight:500;}
   .kpi-value{font-size:24px;font-weight:700;line-height:1;color:var(--text);font-variant-numeric:tabular-nums;}
   .kpi-unit{font-size:12px;font-weight:400;color:var(--muted);margin-left:2px;}
   .kpi-sub{font-size:10px;color:var(--muted);margin-top:4px;}
-  .kpi-accent{color:var(--kpi-color,var(--accent2));}
+  .kpi-accent{color:var(--kpi-color,var(--accent));}
 
   /* CHARTS */
   .charts-grid{display:flex;flex-direction:column;gap:12px;margin-bottom:16px;}
   .chart-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
   .chart-title{font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--slate);margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px;}
   .chart-wrap{position:relative;height:200px;}
-  .chart-wrap.tall{height:220px;}
+  .chart-wrap.tall{height:230px;}
 
   /* TABLE */
   .table-card{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.04);}
@@ -90,51 +88,43 @@
   td{padding:10px 10px;font-size:12px;text-align:right;color:var(--text2);white-space:nowrap;}
   td:first-child{text-align:left;font-weight:500;}
   .operario-name{display:flex;align-items:center;gap:8px;}
-  .op-avatar{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;flex-shrink:0;letter-spacing:0.5px;}
-  .op-name-text{font-size:12px;}
+  .op-avatar{width:26px;height:26px;border-radius:4px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:9px;flex-shrink:0;}
   .bar-cell{display:flex;align-items:center;gap:6px;justify-content:flex-end;}
   .mini-bar{height:4px;border-radius:2px;}
   .val-bold{font-weight:600;font-size:13px;color:var(--text);font-variant-numeric:tabular-nums;}
   .val-prod{font-weight:600;font-size:12px;font-variant-numeric:tabular-nums;}
   .badge-machine{font-size:9px;font-weight:600;padding:2px 6px;border-radius:3px;letter-spacing:0.5px;}
   .badge-k23{background:var(--k23-light);color:var(--k23);border:1px solid #bcd0ea;}
-  .badge-k24{background:var(--k24-light);color:var(--green);border:1px solid #a7d7bf;}
+  .badge-k24{background:var(--green-light);color:var(--green);border:1px solid #a7d7bf;}
   .empty-msg{text-align:center;color:var(--muted);padding:24px;font-size:13px;}
+
+  /* SECTION TITLE */
+  .section-title{font-size:11px;font-weight:700;color:var(--navy);letter-spacing:0.5px;text-transform:uppercase;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--accent);display:inline-block;}
 
   footer{border-top:1px solid var(--border);padding:12px 16px;font-size:10px;color:var(--muted);background:var(--surface);text-align:center;}
   .week-section{display:none;}
   .week-section.active{display:block;}
+  .loading{text-align:center;padding:60px;color:var(--muted);font-size:14px;}
 
-  /* DESKTOP OVERRIDES */
   @media(min-width:768px){
     header{padding:28px 40px 22px;}
     h1{font-size:28px;}
     h1 span{display:inline;font-size:inherit;margin-top:0;}
-    .machine-tag{padding:10px 20px;}
-    .machine-tag .value{font-size:22px;}
-    .machine-tag .label{font-size:9px;}
-    .week-nav{position:static;}
-    .nav-tabs{padding:0 40px;overflow-x:visible;}
-    .week-btn{padding:14px 22px;font-size:13px;}
-    .maq-filter-bar{padding:10px 40px;}
+    .nav-row1{padding:0 40px;}
+    .nav-row2{padding:8px 40px;}
     main{padding:28px 40px;}
     .kpi-grid{grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
     .kpi{padding:20px 22px;}
     .kpi-value{font-size:30px;}
-    .kpi-unit{font-size:13px;}
     .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px;}
     .chart-card{padding:22px 24px;}
     .chart-card.wide{grid-column:1/-1;}
-    .chart-title{font-size:11px;margin-bottom:18px;padding-bottom:12px;}
     .chart-wrap{height:220px;}
     .chart-wrap.tall{height:260px;}
     .table-card{padding:22px 24px;margin-bottom:24px;}
     table{min-width:unset;}
     th{font-size:10px;padding:10px 14px;}
     td{padding:12px 14px;font-size:13px;}
-    .op-name-text{font-size:13px;}
-    .op-avatar{width:28px;height:28px;font-size:10px;}
-    .val-bold{font-size:14px;}
     footer{padding:14px 40px;text-align:left;display:flex;justify-content:space-between;font-size:11px;}
   }
 </style>
@@ -144,8 +134,8 @@
 <header>
   <div class="header-top">
     <div>
-      <div class="header-badge">Informe de Producción · Febrero 2026</div>
-      <h1>Cosecha Propia <span>— Análisis Semanal</span></h1>
+      <div class="header-badge">Informe de Producción · 2026</div>
+      <h1>Cosecha Propia <span>— Análisis de Producción</span></h1>
       <p class="subtitle">Máquina Forestal · Operarios · Productividad</p>
     </div>
     <div class="machines">
@@ -155,134 +145,83 @@
   </div>
 </header>
 
-<nav class="week-nav">
-  <div class="nav-tabs">
-    <button class="week-btn active" onclick="showWeek('all',this)">General</button>
-    <button class="week-btn" onclick="showWeek('s1',this)">Semana 1</button>
-    <button class="week-btn" onclick="showWeek('s2',this)">Semana 2</button>
-    <button class="week-btn" onclick="showWeek('s3',this)">Semana 3</button>
-    <button class="week-btn" onclick="showWeek('s4',this)">Semana 4</button>
+<nav class="top-nav">
+  <div class="nav-row1">
+    <span class="nav-label">Mes:</span>
+    <button class="mes-btn active" onclick="setMes('general',this)">General</button>
+    <button class="mes-btn" onclick="setMes('Enero',this)">Enero</button>
+    <button class="mes-btn" onclick="setMes('Febrero',this)">Febrero</button>
+  </div>
+  <div class="nav-row2" id="week-nav-row" style="display:none">
+    <span class="nav-label" style="padding:0 8px 0 0">Semana:</span>
+    <div id="week-btns"></div>
+    <div class="nav-sep"></div>
+    <span class="nav-label" style="padding:0 8px">Máq.:</span>
+    <button class="maq-btn active-all" onclick="setMaq('all',this)">Todas</button>
+    <button class="maq-btn" onclick="setMaq('K23',this)">K23</button>
+    <button class="maq-btn" onclick="setMaq('K24',this)">K24</button>
+  </div>
+  <div class="nav-row2" id="general-maq-row">
+    <span class="nav-label" style="padding:0 8px 0 0">Máquina:</span>
+    <button class="maq-btn active-all" onclick="setMaq('all',this)">Todas</button>
+    <button class="maq-btn" onclick="setMaq('K23',this)">K23</button>
+    <button class="maq-btn" onclick="setMaq('K24',this)">K24</button>
   </div>
 </nav>
-<div class="maq-filter-bar">
-  <span class="filter-label">Máquina:</span>
-  <div class="maq-btns">
-    <button class="maq-btn active-all" onclick="filterMaq('all',this)">Todas</button>
-    <button class="maq-btn" onclick="filterMaq('K23',this)">K23</button>
-    <button class="maq-btn" onclick="filterMaq('K24',this)">K24</button>
-  </div>
-</div>
 
-<main>
-
-<div class="week-section active" id="week-all">
-  <div id="fi-all" class="filter-indicator"></div>
-  <div id="kpi-general" class="kpi-grid"></div>
-  <div class="charts-grid">
-    <div class="chart-card"><div class="chart-title">Volumen por Semana (m³)</div><div class="chart-wrap"><canvas id="chart-vol-semana"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Productividad por Semana (m³/h)</div><div class="chart-wrap"><canvas id="chart-prod-semana"></canvas></div></div>
-    <div class="chart-card wide"><div class="chart-title">Volumen por Operario y Semana</div><div class="chart-wrap tall"><canvas id="chart-op-semana"></canvas></div></div>
-  </div>
-  <div class="table-card"><div class="chart-title">Resumen Acumulado — Febrero 2026</div>
-    <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-general"></tbody></table></div>
-  </div>
-</div>
-
-<div class="week-section" id="week-s1">
-  <div id="fi-s1" class="filter-indicator"></div>
-  <div id="kpi-s1" class="kpi-grid"></div>
-  <div class="charts-grid">
-    <div class="chart-card wide"><div class="chart-title">Volumen por Operario — Semana 1</div><div class="chart-wrap"><canvas id="chart-s1-vol"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Productividad (m³/h)</div><div class="chart-wrap"><canvas id="chart-s1-prod"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Horas Efectivas vs Motor</div><div class="chart-wrap"><canvas id="chart-s1-hs"></canvas></div></div>
-  </div>
-  <div class="table-card"><div class="chart-title">Detalle Semana 1</div>
-    <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-s1"></tbody></table></div>
-  </div>
-</div>
-
-<div class="week-section" id="week-s2">
-  <div id="fi-s2" class="filter-indicator"></div>
-  <div id="kpi-s2" class="kpi-grid"></div>
-  <div class="charts-grid">
-    <div class="chart-card wide"><div class="chart-title">Volumen por Operario — Semana 2</div><div class="chart-wrap"><canvas id="chart-s2-vol"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Productividad (m³/h)</div><div class="chart-wrap"><canvas id="chart-s2-prod"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Horas Efectivas vs Motor</div><div class="chart-wrap"><canvas id="chart-s2-hs"></canvas></div></div>
-  </div>
-  <div class="table-card"><div class="chart-title">Detalle Semana 2</div>
-    <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-s2"></tbody></table></div>
-  </div>
-</div>
-
-<div class="week-section" id="week-s3">
-  <div id="fi-s3" class="filter-indicator"></div>
-  <div id="kpi-s3" class="kpi-grid"></div>
-  <div class="charts-grid">
-    <div class="chart-card wide"><div class="chart-title">Volumen por Operario — Semana 3</div><div class="chart-wrap"><canvas id="chart-s3-vol"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Productividad (m³/h)</div><div class="chart-wrap"><canvas id="chart-s3-prod"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Horas Efectivas vs Motor</div><div class="chart-wrap"><canvas id="chart-s3-hs"></canvas></div></div>
-  </div>
-  <div class="table-card"><div class="chart-title">Detalle Semana 3</div>
-    <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-s3"></tbody></table></div>
-  </div>
-</div>
-
-<div class="week-section" id="week-s4">
-  <div id="fi-s4" class="filter-indicator"></div>
-  <div id="kpi-s4" class="kpi-grid"></div>
-  <div class="charts-grid">
-    <div class="chart-card wide"><div class="chart-title">Volumen por Operario — Semana 4</div><div class="chart-wrap"><canvas id="chart-s4-vol"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Productividad (m³/h)</div><div class="chart-wrap"><canvas id="chart-s4-prod"></canvas></div></div>
-    <div class="chart-card"><div class="chart-title">Horas Efectivas vs Motor</div><div class="chart-wrap"><canvas id="chart-s4-hs"></canvas></div></div>
-  </div>
-  <div class="table-card"><div class="chart-title">Detalle Semana 4</div>
-    <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-s4"></tbody></table></div>
-  </div>
-</div>
-
+<main id="main-content">
+  <div class="loading">Cargando datos...</div>
 </main>
 
 <footer>
-  <span>Dashboard · Cosecha Propia Komatsu · Febrero 2026</span>
+  <span>Dashboard · Cosecha Propia Komatsu · 2026</span>
   <span>Datos extraídos del Informe Komatsu</span>
 </footer>
 
 <script>
-const DATA=[
-  {semana:'Semana 1',operario:'Alfredo Tejeda',    maq:'K23',hs:30.25,motor:31.3,vol:735.60},
-  {semana:'Semana 1',operario:'Hugo Diaz',         maq:'K24',hs:34.93,motor:36.5,vol:711.41},
-  {semana:'Semana 1',operario:'Matias Casaretto',  maq:'K24',hs:33.25,motor:35.5,vol:786.89},
-  {semana:'Semana 1',operario:'Silvio D. Silveira',maq:'K23',hs:30.77,motor:31.4,vol:1263.92},
-  {semana:'Semana 2',operario:'Alfredo Tejeda',    maq:'K23',hs:28.50,motor:31.8,vol:657.90},
-  {semana:'Semana 2',operario:'Hugo Diaz',         maq:'K24',hs:45.02,motor:48.7,vol:1081.11},
-  {semana:'Semana 2',operario:'Matias Casaretto',  maq:'K24',hs:47.57,motor:48.8,vol:1254.89},
-  {semana:'Semana 2',operario:'Silvio D. Silveira',maq:'K23',hs:44.07,motor:45.3,vol:1578.13},
-  {semana:'Semana 3',operario:'Alfredo Tejeda',    maq:'K23',hs:22.20,motor:23.6,vol:600.80},
-  {semana:'Semana 3',operario:'Hugo Diaz',         maq:'K24',hs:26.82,motor:27.4,vol:668.78},
-  {semana:'Semana 3',operario:'Marcos Ponce',      maq:'K23',hs:17.48,motor:18.4,vol:529.45},
-  {semana:'Semana 3',operario:'Matias Casaretto',  maq:'K24',hs:33.87,motor:35.4,vol:805.63},
-  {semana:'Semana 3',operario:'Silvio D. Silveira',maq:'K23',hs:10.92,motor:10.9,vol:481.75},
-  {semana:'Semana 4',operario:'Alfredo Tejeda',    maq:'K23',hs:6.62, motor:6.9, vol:159.42},
-  {semana:'Semana 4',operario:'Hugo Diaz',         maq:'K24',hs:5.60, motor:6.6, vol:152.74},
-  {semana:'Semana 4',operario:'Marcos Ponce',      maq:'K23',hs:1.90, motor:2.5, vol:57.17},
-  {semana:'Semana 4',operario:'Matias Casaretto',  maq:'K24',hs:3.63, motor:3.8, vol:100.06},
-];
-const SEMANAS=['Semana 1','Semana 2','Semana 3','Semana 4'];
-const OPC={'Alfredo Tejeda':'#2563a8','Hugo Diaz':'#1a6640','Marcos Ponce':'#6b4e1e','Matias Casaretto':'#1a3a5c','Silvio D. Silveira':'#5b2c6f'};
-const OPBG={'Alfredo Tejeda':'#dbeafe','Hugo Diaz':'#d1fae5','Marcos Ponce':'#fef3c7','Matias Casaretto':'#e0e7ef','Silvio D. Silveira':'#ede9f6'};
-const OPI={'Alfredo Tejeda':'AT','Hugo Diaz':'HD','Marcos Ponce':'MP','Matias Casaretto':'MC','Silvio D. Silveira':'SS'};
-const CDS={
+// ============ STATE ============
+let ALL_DATA = [];
+let currentMes = 'general';
+let currentSemana = 'general';
+let currentMaq = 'all';
+const CHARTS = {};
+
+// ============ COLORS ============
+const OPC = {
+  'Alfredo Tejeda':      '#2563a8',
+  'Hugo Diaz':           '#1a6640',
+  'Marcos Ponce':        '#6b4e1e',
+  'Matias Casaretto':    '#1a3a5c',
+  'Silvio David Silveira':'#5b2c6f',
+};
+const OPBG = {
+  'Alfredo Tejeda':      '#dbeafe',
+  'Hugo Diaz':           '#d1fae5',
+  'Marcos Ponce':        '#fef3c7',
+  'Matias Casaretto':    '#e0e7ef',
+  'Silvio David Silveira':'#ede9f6',
+};
+const OPI = {
+  'Alfredo Tejeda':'AT','Hugo Diaz':'HD','Marcos Ponce':'MP',
+  'Matias Casaretto':'MC','Silvio David Silveira':'SS'
+};
+const MES_COLORS   = ['#1a3a5c','#2563a8','#5b8fc9','#a0bedd','#cfe0f0'];
+const MES_COLORS_G = ['#1a6640','#2d9966','#6ec49a','#b2dfc6','#d9f0e6'];
+const CDS = {
   x:{ticks:{color:'#8a94a6',font:{family:'Inter',size:10}},grid:{color:'#eef0f4'}},
   y:{ticks:{color:'#8a94a6',font:{family:'Inter',size:10}},grid:{color:'#eef0f4'}}
 };
-const CDL={labels:{color:'#4a5568',font:{family:'Inter',size:10}}};
-const SEM_COLORS=['#1a3a5c','#2563a8','#5b8fc9','#a0bedd'];
-const SEM_COLORS_GREEN=['#1a6640','#2d9966','#6ec49a','#b2dfc6'];
-let currentMaq='all';
-const CHARTS={};
+const CDL = {labels:{color:'#4a5568',font:{family:'Inter',size:10}}};
 
-function fd(data){return currentMaq==='all'?data:data.filter(d=>d.maq===currentMaq);}
-function fmt(n,d=1){return n.toFixed(d).replace('.',',');}
+// ============ HELPERS ============
+function fmt(n,d=1){return typeof n==='number'?n.toFixed(d).replace('.',','):'0';}
+function fd(data){
+  let r = data;
+  if(currentMes!=='general') r=r.filter(d=>d.mes===currentMes);
+  if(currentMaq!=='all') r=r.filter(d=>d.maq===currentMaq);
+  if(currentSemana!=='general') r=r.filter(d=>d.semana===currentSemana);
+  return r;
+}
 function byOp(rows){
   const m={};
   rows.forEach(r=>{
@@ -291,10 +230,16 @@ function byOp(rows){
   });
   return Object.values(m).sort((a,b)=>b.vol-a.vol);
 }
+function mk(id,cfg){
+  if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id];}
+  const c=document.getElementById(id);
+  if(c)CHARTS[id]=new Chart(c,cfg);
+}
 
+// ============ RENDER KPI ============
 function renderKPI(id,rows,sub){
   const el=document.getElementById(id);if(!el)return;
-  if(!rows.length){el.innerHTML='<p class="empty-msg">Sin datos para este filtro</p>';return;}
+  if(!rows.length){el.innerHTML='<p class="empty-msg">Sin datos</p>';return;}
   const ops=byOp(rows);
   const tv=rows.reduce((s,d)=>s+d.vol,0),th=rows.reduce((s,d)=>s+d.hs,0);
   const avg=th>0?tv/th:0;
@@ -308,16 +253,19 @@ function renderKPI(id,rows,sub){
     <div class="kpi" style="--kpi-color:${topCol}"><div class="kpi-label">Mejor Rendimiento</div><div class="kpi-value kpi-accent">${fmt(tp,1)}<span class="kpi-unit">m³/h</span></div><div class="kpi-sub">${top.operario}</div></div>`;
 }
 
+// ============ RENDER TABLE ============
 function renderTable(tid,rows){
   const tb=document.getElementById(tid);if(!tb)return;
-  if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="empty-msg">Sin datos para este filtro</td></tr>';return;}
+  if(!rows.length){tb.innerHTML='<tr><td colspan="6" class="empty-msg">Sin datos</td></tr>';return;}
   const ops=byOp(rows),mx=Math.max(...ops.map(o=>o.vol));
   tb.innerHTML=ops.map(o=>{
-    const pr=o.hs>0?o.vol/o.hs:0,pct=Math.round(o.vol/mx*60),col=OPC[o.operario]||'#2563a8',bg=OPBG[o.operario]||'#dbeafe',init=OPI[o.operario]||o.operario.substring(0,2);
-    const bc=o.maq==='K23'?'badge-k23':'badge-k24';
+    const pr=o.hs>0?o.vol/o.hs:0,pct=Math.round(o.vol/mx*60);
+    const col=OPC[o.operario]||'#2563a8',bg=OPBG[o.operario]||'#dbeafe';
+    const init=OPI[o.operario]||o.operario.substring(0,2);
+    const bc=o.maq==='K23'?'badge-k23':'badge-k44';
     return `<tr>
-      <td><div class="operario-name"><div class="op-avatar" style="background:${bg};color:${col}">${init}</div><span class="op-name-text">${o.operario}</span></div></td>
-      <td><span class="badge-machine ${bc}">${o.maq}</span></td>
+      <td><div class="operario-name"><div class="op-avatar" style="background:${bg};color:${col}">${init}</div>${o.operario}</div></td>
+      <td><span class="badge-machine ${o.maq==='K23'?'badge-k23':'badge-k24'}">${o.maq}</span></td>
       <td>${fmt(o.hs)}</td><td>${fmt(o.motor)}</td>
       <td><div class="bar-cell"><div class="mini-bar" style="width:${pct}px;background:${col}"></div><span class="val-bold">${fmt(o.vol,0)}</span></div></td>
       <td><span class="val-prod" style="color:${col}">${fmt(pr)}</span></td>
@@ -325,68 +273,139 @@ function renderTable(tid,rows){
   }).join('');
 }
 
-function mk(id,cfg){if(CHARTS[id]){CHARTS[id].destroy();delete CHARTS[id];}const c=document.getElementById(id);if(c)CHARTS[id]=new Chart(c,cfg);}
+// ============ RENDER GENERAL VIEW ============
+function renderGeneral(){
+  const meses = [...new Set(ALL_DATA.map(d=>d.mes))].sort();
+  const data = currentMaq==='all' ? ALL_DATA : ALL_DATA.filter(d=>d.maq===currentMaq);
 
-function renderGeneralCharts(){
-  const data=fd(DATA);
+  document.getElementById('main-content').innerHTML = `
+    <div id="kpi-general" class="kpi-grid"></div>
+    <div class="charts-grid">
+      <div class="chart-card wide"><div class="chart-title">Volumen Total por Mes</div><div class="chart-wrap"><canvas id="chart-gen-vol"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Productividad por Mes (m³/h)</div><div class="chart-wrap"><canvas id="chart-gen-prod"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Horas Efectivas por Mes</div><div class="chart-wrap"><canvas id="chart-gen-hs"></canvas></div></div>
+      <div class="chart-card wide"><div class="chart-title">Volumen por Operario y Mes</div><div class="chart-wrap tall"><canvas id="chart-gen-op"></canvas></div></div>
+    </div>
+    <div class="table-card">
+      <div class="chart-title">Resumen por Operario — Acumulado</div>
+      <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-general"></tbody></table></div>
+    </div>`;
+
+  renderKPI('kpi-general', data, 'Todos los meses');
+  renderTable('table-general', data);
+
+  // Vol por mes
+  const volMes = meses.map(m=>data.filter(d=>d.mes===m).reduce((a,d)=>a+d.vol,0));
+  mk('chart-gen-vol',{type:'bar',data:{labels:meses,datasets:[{label:'Volumen (m³)',data:volMes,backgroundColor:MES_COLORS,borderWidth:0,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'m³',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
+
+  // Prod por mes
+  const prodMes = meses.map(m=>{const r=data.filter(d=>d.mes===m),tv=r.reduce((a,d)=>a+d.vol,0),th=r.reduce((a,d)=>a+d.hs,0);return th>0?+(tv/th).toFixed(2):0;});
+  mk('chart-gen-prod',{type:'bar',data:{labels:meses,datasets:[{label:'M³/h',data:prodMes,backgroundColor:MES_COLORS_G,borderWidth:0,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'m³/h',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
+
+  // Hs por mes
+  const hsMes = meses.map(m=>data.filter(d=>d.mes===m).reduce((a,d)=>a+d.hs,0));
+  mk('chart-gen-hs',{type:'bar',data:{labels:meses,datasets:[{label:'Horas',data:hsMes.map(v=>+v.toFixed(1)),backgroundColor:['#1a3a5c','#2563a8'],borderWidth:0,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'h',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
+
+  // Vol por operario y mes
   const ops=[...new Set(data.map(d=>d.operario))];
-  mk('chart-vol-semana',{type:'bar',data:{labels:SEMANAS,datasets:[{label:'Volumen (m³)',data:SEMANAS.map(s=>data.filter(d=>d.semana===s).reduce((a,d)=>a+d.vol,0)),backgroundColor:SEM_COLORS,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'m³',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
-  mk('chart-prod-semana',{type:'bar',data:{labels:SEMANAS,datasets:[{label:'M³/h',data:SEMANAS.map(s=>{const r=data.filter(d=>d.semana===s),tv=r.reduce((a,d)=>a+d.vol,0),th=r.reduce((a,d)=>a+d.hs,0);return th>0?+(tv/th).toFixed(2):0;}),backgroundColor:SEM_COLORS_GREEN,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'m³/h',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
-  mk('chart-op-semana',{type:'bar',data:{labels:SEMANAS,datasets:ops.map(op=>({label:op,data:SEMANAS.map(s=>{const r=data.find(d=>d.semana===s&&d.operario===op);return r?+r.vol.toFixed(0):0;}),backgroundColor:OPC[op]||'#2563a8',borderWidth:0,borderRadius:2,stack:'s'}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:CDL},scales:{x:{...CDS.x,stacked:true},y:{...CDS.y,stacked:true,title:{display:true,text:'m³',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
+  mk('chart-gen-op',{type:'bar',data:{labels:meses,datasets:ops.map(op=>({label:op,data:meses.map(m=>{const r=data.filter(d=>d.mes===m&&d.operario===op);return r.reduce((a,d)=>a+d.vol,0);}),backgroundColor:OPC[op]||'#2563a8',borderWidth:0,borderRadius:2,stack:'s'}))},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:CDL},scales:{x:{...CDS.x,stacked:true},y:{...CDS.y,stacked:true,title:{display:true,text:'m³',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
 }
 
-function renderWeekCharts(wid,sem){
-  const data=fd(DATA.filter(d=>d.semana===sem));
-  const ops=byOp(data);
-  if(!ops.length){['vol','prod','hs'].forEach(t=>{if(CHARTS[`chart-${wid}-${t}`]){CHARTS[`chart-${wid}-${t}`].destroy();delete CHARTS[`chart-${wid}-${t}`];}});return;}
-  const names=ops.map(o=>o.operario),cols=ops.map(o=>OPC[o.operario]||'#2563a8');
-  mk(`chart-${wid}-vol`,{type:'bar',data:{labels:names,datasets:[{label:'Volumen (m³)',data:ops.map(o=>+o.vol.toFixed(0)),backgroundColor:cols,borderWidth:0,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{...CDS.x,title:{display:true,text:'m³',color:'#8a94a6',font:{family:'Inter',size:10}}},y:{...CDS.y}}}});
-  mk(`chart-${wid}-prod`,{type:'bar',data:{labels:names,datasets:[{label:'M³/h',data:ops.map(o=>+(o.hs>0?o.vol/o.hs:0).toFixed(2)),backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'m³/h',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
-  mk(`chart-${wid}-hs`,{type:'bar',data:{labels:names,datasets:[{label:'Hs. Efectivas',data:ops.map(o=>+o.hs.toFixed(1)),backgroundColor:cols,borderWidth:0,borderRadius:4},{label:'Hs. Motor',data:ops.map(o=>+o.motor.toFixed(1)),backgroundColor:'#dde1e7',borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:CDL},scales:{x:{...CDS.x},y:{...CDS.y,title:{display:true,text:'Horas',color:'#8a94a6',font:{family:'Inter',size:10}}}}}});
+// ============ RENDER MES VIEW ============
+function renderMes(mes){
+  const mesData = ALL_DATA.filter(d=>d.mes===mes);
+  const semanas = [...new Set(mesData.map(d=>d.semana))].sort();
+  const data = fd(ALL_DATA);
+
+  // Build week buttons
+  const weekBtns = document.getElementById('week-btns');
+  if(weekBtns){
+    weekBtns.innerHTML = `<button class="week-btn ${currentSemana==='general'?'active':''}" onclick="setSemana('general',this)" style="margin-right:4px">Todas</button>` +
+      semanas.map(s=>`<button class="week-btn ${currentSemana===s?'active':''}" onclick="setSemana('${s}',this)" style="margin-right:4px">${s}</button>`).join('');
+  }
+
+  const labels = currentSemana==='general' ? semanas : [currentSemana];
+
+  document.getElementById('main-content').innerHTML = `
+    <div id="kpi-mes" class="kpi-grid"></div>
+    <div class="charts-grid">
+      <div class="chart-card"><div class="chart-title">Volumen por Semana (m³)</div><div class="chart-wrap"><canvas id="chart-mes-vol-sem"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Productividad por Semana (m³/h)</div><div class="chart-wrap"><canvas id="chart-mes-prod-sem"></canvas></div></div>
+      <div class="chart-card wide"><div class="chart-title">Volumen por Operario${currentSemana!=='general'?' — '+currentSemana:''}</div><div class="chart-wrap"><canvas id="chart-mes-op-vol"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Productividad por Operario (m³/h)</div><div class="chart-wrap"><canvas id="chart-mes-op-prod"></canvas></div></div>
+      <div class="chart-card"><div class="chart-title">Horas Efectivas vs Motor</div><div class="chart-wrap"><canvas id="chart-mes-hs"></canvas></div></div>
+    </div>
+    <div class="table-card">
+      <div class="chart-title">Detalle — ${mes}${currentSemana!=='general'?' · '+currentSemana:''}</div>
+      <div class="table-scroll"><table><thead><tr><th>Operario</th><th>Máq.</th><th>Hs. Ef.</th><th>Hs. Motor</th><th>Volumen (m³)</th><th>M³/h</th></tr></thead><tbody id="table-mes"></tbody></table></div>
+    </div>`;
+
+  renderKPI('kpi-mes', data, mes + (currentSemana!=='general'?' · '+currentSemana:''));
+  renderTable('table-mes', data);
+
+  // Vol por semana
+  const volSem = semanas.map(s=>mesData.filter(d=>d.semana===s&&(currentMaq==='all'||d.maq===currentMaq)).reduce((a,d)=>a+d.vol,0));
+  mk('chart-mes-vol-sem',{type:'bar',data:{labels:semanas,datasets:[{label:'m³',data:volSem,backgroundColor:MES_COLORS,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y}}}});
+
+  // Prod por semana
+  const prodSem = semanas.map(s=>{const r=mesData.filter(d=>d.semana===s&&(currentMaq==='all'||d.maq===currentMaq)),tv=r.reduce((a,d)=>a+d.vol,0),th=r.reduce((a,d)=>a+d.hs,0);return th>0?+(tv/th).toFixed(2):0;});
+  mk('chart-mes-prod-sem',{type:'bar',data:{labels:semanas,datasets:[{label:'m³/h',data:prodSem,backgroundColor:MES_COLORS_G,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y}}}});
+
+  // Por operario
+  const ops = byOp(data);
+  const names = ops.map(o=>o.operario), cols = ops.map(o=>OPC[o.operario]||'#2563a8');
+  mk('chart-mes-op-vol',{type:'bar',data:{labels:names,datasets:[{label:'m³',data:ops.map(o=>+o.vol.toFixed(0)),backgroundColor:cols,borderWidth:0,borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y}}}});
+  mk('chart-mes-op-prod',{type:'bar',data:{labels:names,datasets:[{label:'m³/h',data:ops.map(o=>+(o.hs>0?o.vol/o.hs:0).toFixed(2)),backgroundColor:cols,borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{...CDS.x},y:{...CDS.y}}}});
+  mk('chart-mes-hs',{type:'bar',data:{labels:names,datasets:[{label:'Hs. Efectivas',data:ops.map(o=>+o.hs.toFixed(1)),backgroundColor:cols,borderWidth:0,borderRadius:4},{label:'Hs. Motor',data:ops.map(o=>+o.motor.toFixed(1)),backgroundColor:'#dde1e7',borderWidth:0,borderRadius:4}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:CDL},scales:{x:{...CDS.x},y:{...CDS.y}}}});
 }
 
-function updateFI(id,maq){
-  const el=document.getElementById('fi-'+id);if(!el)return;
-  if(maq==='all'){el.classList.remove('show');return;}
-  const col=maq==='K23'?'#2563a8':'#1a6640';
-  const bg=maq==='K23'?'#dbeafe':'#d1fae5';
-  el.style.background=bg;el.style.border=`1px solid ${maq==='K23'?'#bcd0ea':'#a7d7bf'}`;
-  el.classList.add('show');
-  el.innerHTML=`<div class="filter-dot" style="background:${col}"></div><span style="color:#374151">Filtrando por máquina <strong style="color:${col}">${maq}</strong></span>`;
-}
-
-function renderAll(){
-  renderKPI('kpi-general',fd(DATA),'Febrero completo');
-  renderTable('table-general',fd(DATA));
-  renderGeneralCharts();
-  updateFI('all',currentMaq);
-  [['s1','Semana 1'],['s2','Semana 2'],['s3','Semana 3'],['s4','Semana 4']].forEach(([wid,sem])=>{
-    const data=fd(DATA.filter(d=>d.semana===sem));
-    renderKPI('kpi-'+wid,data,sem);
-    renderTable('table-'+wid,data);
-    renderWeekCharts(wid,sem);
-    updateFI(wid,currentMaq);
-  });
-}
-
-function filterMaq(maq,btn){
-  currentMaq=maq;
-  document.querySelectorAll('.maq-btn').forEach(b=>b.className='maq-btn');
-  if(maq==='all')btn.classList.add('active-all');
-  else if(maq==='K23')btn.classList.add('active-k23');
-  else btn.classList.add('active-k44');
-  btn.className='maq-btn '+(maq==='all'?'active-all':maq==='K23'?'active-k23':'active-k24');
-  renderAll();
-}
-
-function showWeek(id,btn){
-  document.querySelectorAll('.week-section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('.week-btn').forEach(b=>b.classList.remove('active'));
-  document.getElementById('week-'+id).classList.add('active');
+// ============ NAVIGATION ============
+function setMes(mes, btn){
+  currentMes = mes;
+  currentSemana = 'general';
+  document.querySelectorAll('.mes-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
+
+  const weekRow = document.getElementById('week-nav-row');
+  const genMaqRow = document.getElementById('general-maq-row');
+
+  if(mes==='general'){
+    weekRow.style.display='none';
+    genMaqRow.style.display='flex';
+    renderGeneral();
+  } else {
+    weekRow.style.display='flex';
+    genMaqRow.style.display='none';
+    renderMes(mes);
+  }
 }
 
-renderAll();
+function setSemana(sem, btn){
+  currentSemana = sem;
+  document.querySelectorAll('#week-btns .week-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMes(currentMes);
+}
+
+function setMaq(maq, btn){
+  currentMaq = maq;
+  document.querySelectorAll('.maq-btn').forEach(b=>b.className='maq-btn');
+  btn.className='maq-btn '+(maq==='all'?'active-all':maq==='K23'?'active-k23':'active-k24');
+  if(currentMes==='general') renderGeneral();
+  else renderMes(currentMes);
+}
+
+// ============ LOAD DATA ============
+fetch('datos.json')
+  .then(r=>r.json())
+  .then(data=>{
+    ALL_DATA = data;
+    renderGeneral();
+  })
+  .catch(()=>{
+    document.getElementById('main-content').innerHTML =
+      '<p class="empty-msg">⚠️ No se encontró datos.json. Asegurate de subir ambos archivos a GitHub.</p>';
+  });
 </script>
 </body>
 </html>
